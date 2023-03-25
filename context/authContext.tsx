@@ -1,7 +1,13 @@
-import { createContext, useContext, Context } from 'react'
-import useFirebaseAuth from "../firebase/authUser";
+import { createContext, useContext } from 'react'
+import useFirebaseAuth, { AuthUserState } from "../firebase/authUser";
 
-export const authUserContext = createContext({
+interface AuthState{
+  authUser: AuthUserState | null;
+  loading: boolean;
+  signOut: () => Promise<void>;
+}
+
+const initial: AuthState = {
   authUser: {
     uid: null,
     displayName: null,
@@ -9,10 +15,11 @@ export const authUserContext = createContext({
   },
   loading: true,
   signOut: async () => { }
-});
+}
+const authUserContext = createContext(initial);
 
 export function AuthUserProvider({ children }: any) {
-  const auth = useFirebaseAuth();
+  const auth:AuthState = useFirebaseAuth();
   return <authUserContext.Provider value={auth}>{children}</authUserContext.Provider>;
 }
 // custom hook to use the authUserContext and access authUser and loading

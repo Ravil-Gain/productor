@@ -2,13 +2,8 @@ import { UserInfo } from '@firebase/auth';
 import { useState, useEffect } from 'react'
 import { auth } from './config';
 
-// interface AuthState {
-//   authUser: AuthUserState,
-//   loading: true,
-//   signOut(): any
-// }
 
-interface AuthUserState {
+export interface AuthUserState {
   uid: string | null,
   displayName: string | null,
   email: string | null

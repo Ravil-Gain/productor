@@ -26,7 +26,7 @@ export default function List(list: ListDocument) {
   );
 }
 
-export async function getServerSideProps(context) {
+export async function getServerSideProps(context: { query: { id: string; }; }) {
   const docRef = doc(database, "todos", context.query.id);
   const docSnap = await getDoc(docRef);
   const data: ListDocument = docSnap.data() as ListDocument;

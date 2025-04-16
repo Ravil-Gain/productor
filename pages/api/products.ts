@@ -1,6 +1,8 @@
 // Next.js API route support: https://nextjs.org/docs/api-routes/introduction
 import type { NextApiRequest, NextApiResponse } from "next";
 import * as data from "../../public/products.json";
+import { scrapeMenu } from "../../src/scrapeMenu";
+
 const { products } = data;
 const autocorrect = require("autocorrect")({ words: products });
 type Data = [string];
@@ -16,9 +18,12 @@ const find = (s: string) => {
   return result;
 };
 
-export default function handler(
+export default async function handler(
   req: NextApiRequest,
   res: NextApiResponse<string[]>
 ) {
-  res.status(200).json(products);
+  const data = await scrapeMenu();
+  // console.log("scraped data", data);
+  
+  res.status(200).json(data);
 }
